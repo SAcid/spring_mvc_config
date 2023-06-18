@@ -1,0 +1,2 @@
+# WebMvcConfigurer sample configuration
+

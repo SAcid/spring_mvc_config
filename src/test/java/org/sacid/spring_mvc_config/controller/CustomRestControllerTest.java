@@ -2,6 +2,7 @@ package org.sacid.spring_mvc_config.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -50,7 +51,7 @@ class CustomRestControllerTest {
         .andExpect(status().isOk())
         .andExpect(content().string("{\"url\":\"http://localhost/222\",\"title\":\"title\",\"content\":\"content\"}"));
 
-    verify(customRestController).custom(idCaptor.capture(), customRequestCaptor.capture());
+    verify(customRestController, times(1)).custom(idCaptor.capture(), customRequestCaptor.capture());
 
     assertThat(idCaptor.getValue()).isEqualTo("222");
     ReflectionUtils.findConstructors(CustomRequest.class, constructor -> Modifier.isPrivate(constructor.getModifiers()))

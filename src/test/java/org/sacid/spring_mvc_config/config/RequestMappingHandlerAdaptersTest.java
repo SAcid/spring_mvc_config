@@ -5,10 +5,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.fail;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import org.sacid.spring_mvc_config.config.CustomValueHandlerMethodArgumentResolver;
-import org.sacid.spring_mvc_config.config.CustomValueHandlerMethodReturnValueHandler;
-import org.sacid.spring_mvc_config.config.RequestBodyCustomValueHandlerMethodArgumentResolver;
-import org.sacid.spring_mvc_config.config.ResponseBodyCustomValueHandlerMethodReturnValueHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.ApplicationContext;
@@ -34,7 +30,7 @@ class RequestMappingHandlerAdaptersTest {
     assertThat(argumentResolvers).isNotNull();
     assertOrder(argumentResolvers, RequestBodyCustomValueHandlerMethodArgumentResolver.class, 7);
     assertOrder(argumentResolvers, RequestResponseBodyMethodProcessor.class, 8);
-    assertOrder(argumentResolvers, CustomValueHandlerMethodArgumentResolver.class, 25);
+    assertOrder(argumentResolvers, HeaderKeyHandlerMethodArgumentResolver.class, 25);
   }
 
   @Test

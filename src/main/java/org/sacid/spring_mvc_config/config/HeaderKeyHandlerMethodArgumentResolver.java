@@ -1,25 +1,20 @@
 package org.sacid.spring_mvc_config.config;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
+import org.sacid.spring_mvc_config.model.HeaderKey;
 import org.springframework.core.MethodParameter;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
-import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;
 
-public class CustomValueHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver{
+/**
+ * controller method arguments 중 HeaderKey 있는 경우 생성
+ */
+public class HeaderKeyHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver{
   @Override
   public boolean supportsParameter(MethodParameter parameter) {
-
-    return false;
+    return HeaderKey.class.isAssignableFrom(parameter.getParameterType());
   }
 
   @Override
@@ -28,7 +23,11 @@ public class CustomValueHandlerMethodArgumentResolver implements HandlerMethodAr
       NativeWebRequest webRequest,
       WebDataBinderFactory binderFactory) throws Exception {
 
-    // TODO: implement
-    return null;
+    HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
+    if (request == null) {
+      throw new IllegalStateException("Current request is not of type HttpServletRequest: " + webRequest);
+    }
+
+    return HeaderKey.of(request.getHeader("header-key"));
   }
 }

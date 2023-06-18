@@ -6,6 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+/*&
+ * interceptor로 인중 처리
+ */
 @Slf4j
 public class AuthenticationInterceptor implements HandlerInterceptor {
 

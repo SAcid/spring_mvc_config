@@ -1,4 +1,4 @@
-package org.sacid.spring_mvc_config.config;
+package org.sacid.spring_mvc_config.resolver;
 
 import javax.servlet.http.HttpServletRequest;
 import org.sacid.spring_mvc_config.model.HeaderKey;

@@ -1,4 +1,4 @@
-package org.sacid.spring_mvc_config.config;
+package org.sacid.spring_mvc_config.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

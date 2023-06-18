@@ -10,6 +10,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.ReflectionUtils;
 import org.mockito.ArgumentCaptor;
@@ -28,27 +31,36 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.ConfigurableMockMvcBuilder;
+import org.springframework.web.util.ContentCachingRequestWrapper;
 
 
-
+@TestConfiguration
+class CustomMockMvcBuilderCustomizer implements MockMvcBuilderCustomizer {
+  @Override
+  public void customize(ConfigurableMockMvcBuilder<?> builder) {
+    builder.addFilters(new ContentCachingRequestWrapperFilter());
+  }
+}
 @Import({
     RequestBodyCustomValueHandlerMethodArgumentResolver.class,
     ResponseBodyCustomValueHandlerMethodReturnValueHandler.class,
     HistoryServiceImpl.class
 })
-@WebMvcTest(CustomRestController.class)
-class CustomRestControllerTest {
+@WebMvcTest(
+    controllers = { CustomRestController.class}
+    )
+class CompletedContentTest {
   @Autowired
   MockMvc mockMvc;
 
   @SpyBean
-  CustomRestController customRestController;
+  HistoryServiceImpl historyService;
 
   @Captor
-  ArgumentCaptor<String> idCaptor;
+  ArgumentCaptor<ContentCachingRequestWrapper> requestArgumentCaptor;
 
   @Captor
-  ArgumentCaptor<CustomRequest> customRequestCaptor;
+  ArgumentCaptor<HttpServletResponse> responseArgumentCaptor;
 
 
   @Test
@@ -59,24 +71,12 @@ class CustomRestControllerTest {
             .accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
-        .andExpect(content().string("{\"url\":\"http://localhost/222\",\"title\":\"title\",\"content\":\"content\"}"));
+        .andExpect(content().string(
+            "{\"url\":\"http://localhost/222\",\"title\":\"title\",\"content\":\"content\"}"));
 
-    verify(customRestController, times(1)).custom(idCaptor.capture(), customRequestCaptor.capture());
+    verify(historyService, times(1)).insertHistory(requestArgumentCaptor.capture());
+    assertThat(new String(requestArgumentCaptor.getValue().getContentAsByteArray())).isEqualTo("{\"title\" : \"title\", \"content\" : \"content\"}");
 
-    assertThat(idCaptor.getValue()).isEqualTo("222");
-    ReflectionUtils.findConstructors(CustomRequest.class, constructor -> Modifier.isPrivate(constructor.getModifiers()))
-        .stream()
-        .findFirst()
-        .ifPresentOrElse(
-            constructor -> {
-              constructor.setAccessible(true);
-              try {
-                assertThat(customRequestCaptor.getValue()).isEqualTo(constructor.newInstance("change", "title", "content"));
-              } catch (InstantiationException| IllegalAccessException |  InvocationTargetException e) {
-                throw new IllegalStateException("can not invoke CustomRequest constructor");
-              }
-            },
-            () -> fail("CustomRequest constructor is not found")
-        );
   }
+
 }

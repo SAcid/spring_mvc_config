@@ -1,4 +1,4 @@
-package org.sacid.spring_mvc_config.config;
+package org.sacid.spring_mvc_config.handler;
 
 import org.sacid.spring_mvc_config.annotation.CustomValue;
 import java.lang.reflect.Method;

@@ -1,4 +1,4 @@
-package org.sacid.spring_mvc_config.config;
+package org.sacid.spring_mvc_config.interceptor;
 
 import java.time.Instant;
 import javax.servlet.http.HttpServletRequest;

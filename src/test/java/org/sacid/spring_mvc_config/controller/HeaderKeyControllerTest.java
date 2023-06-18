@@ -16,11 +16,13 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.sacid.spring_mvc_config.model.CustomRequest;
 import org.sacid.spring_mvc_config.model.HeaderKey;
+import org.sacid.spring_mvc_config.service.HistoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
-
+@Import({HistoryServiceImpl.class})
 @WebMvcTest(AuthController.class)
 class HeaderKeyControllerTest {
 

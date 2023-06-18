@@ -5,6 +5,11 @@ import static org.assertj.core.api.AssertionsForClassTypes.fail;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.sacid.spring_mvc_config.handler.CustomValueHandlerMethodReturnValueHandler;
+import org.sacid.spring_mvc_config.handler.ResponseBodyCustomValueHandlerMethodReturnValueHandler;
+import org.sacid.spring_mvc_config.resolver.HeaderKeyHandlerMethodArgumentResolver;
+import org.sacid.spring_mvc_config.resolver.RequestBodyCustomValueHandlerMethodArgumentResolver;
+import org.sacid.spring_mvc_config.service.HistoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.ApplicationContext;
@@ -14,7 +19,7 @@ import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;
 
-@Import({ResponseBodyCustomValueHandlerMethodReturnValueHandler.class})
+@Import({ResponseBodyCustomValueHandlerMethodReturnValueHandler.class, HistoryServiceImpl.class})
 @WebMvcTest
 class RequestMappingHandlerAdaptersTest {
   @Autowired

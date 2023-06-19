@@ -8,18 +8,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.util.ReflectionUtils;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.sacid.spring_mvc_config.filter.ContentCachingRequestWrapperFilter;
 import org.sacid.spring_mvc_config.handler.ResponseBodyCustomValueHandlerMethodReturnValueHandler;
-import org.sacid.spring_mvc_config.model.CustomRequest;
 import org.sacid.spring_mvc_config.resolver.RequestBodyCustomValueHandlerMethodArgumentResolver;
 import org.sacid.spring_mvc_config.service.HistoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +43,7 @@ class CustomMockMvcBuilderCustomizer implements MockMvcBuilderCustomizer {
 @WebMvcTest(
     controllers = { CustomRestController.class}
     )
-class CompletedContentTest {
+class ContentCachingTest {
   @Autowired
   MockMvc mockMvc;
 

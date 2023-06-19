@@ -4,7 +4,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.sacid.spring_mvc_config.handler.CustomValueHandlerMethodReturnValueHandler;
 import org.sacid.spring_mvc_config.interceptor.AuthenticationInterceptor;
-import org.sacid.spring_mvc_config.interceptor.CompletedInterceptor;
+import org.sacid.spring_mvc_config.interceptor.ContentCachingInterceptor;
 import org.sacid.spring_mvc_config.interceptor.LoggingHandlerInterceptor;
 import org.sacid.spring_mvc_config.resolver.HeaderKeyHandlerMethodArgumentResolver;
 import org.sacid.spring_mvc_config.service.HistoryService;
@@ -24,7 +24,7 @@ public class WebConfig implements WebMvcConfigurer {
     registry.addInterceptor(new LoggingHandlerInterceptor());
     registry.addInterceptor(new AuthenticationInterceptor())
         .addPathPatterns("/auth/**");
-    registry.addInterceptor(new CompletedInterceptor(historyService));
+    registry.addInterceptor(new ContentCachingInterceptor(historyService));
   }
 
   @Override

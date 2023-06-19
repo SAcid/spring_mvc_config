@@ -8,11 +8,11 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 
 /**
- * 정상적으로 처리완료된 request를 intercept
+ * request payload logging
  */
-public class CompletedInterceptor implements HandlerInterceptor {
+public class ContentCachingInterceptor implements HandlerInterceptor {
   private final HistoryService historyService;
-  public CompletedInterceptor(HistoryService historyService) {
+  public ContentCachingInterceptor(HistoryService historyService) {
     this.historyService = historyService;
   }
 
